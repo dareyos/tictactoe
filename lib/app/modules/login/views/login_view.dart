@@ -35,7 +35,7 @@ class LoginView extends GetView<LoginController> {
                   children: [
                     const SizedBox(height: 30),
                     const Text(
-                      'Добро пожаловать!',
+                      'Крестики-Нолики',
                       style: TextStyle(
                         color: AppColors.accentColor,
                         fontWeight: FontWeight.bold,
@@ -43,11 +43,11 @@ class LoginView extends GetView<LoginController> {
                       ),
                     ),
                     const Text(
-                      'Введите ваш никнейм',
+                      'Введите имя пользователя для продолжения',
                       style: TextStyle(
                         color: AppColors.accentColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                        fontSize: 18,
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -96,7 +96,7 @@ class LoginView extends GetView<LoginController> {
                       ),
                       backgroundColor: AppColors.accentColor),
                   child: const Text(
-                    "Войти",
+                    "Играть",
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,

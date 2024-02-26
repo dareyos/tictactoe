@@ -1,12 +1,20 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tictactoe/app/routes/app_pages.dart';
+import 'package:tictactoe/core/constants.dart';
+import 'package:tictactoe/models/user_get/user_get.dart';
+import 'package:tictactoe/services/auth_service.dart';
+import 'package:tictactoe/services/storage_service.dart';
 
 class LoginController extends GetxController {
-  //AuthService authService = Get.find();
-  //ApiService apiService = Get.find();
+  AuthService authService = Get.find();
+  Dio client = Dio(BaseOptions(baseUrl: Constants.baseUrl));
+  StorageService storageService = Get.find();
 
   var nickController = TextEditingController();
+
+  late UserGet userGet;
 
   void login() async {
     bool latinChar(String text) {
@@ -22,12 +30,15 @@ class LoginController extends GetxController {
       showSnack("Имя пользователя должно быть на английском языке.");
       return;
     } else {
+      var response = await client.post('/user/add/${nickController.text}');
+      if (response.statusCode == 200) {
+        userGet = UserGet.fromJson(response.data);
+      }
+      storageService.write("user", userGet);
+      authService.getBasicAuth(userGet);
       Get.offNamed(Routes.ROOMS);
     }
   }
-
-// void tryLogin(String email, String password) =>
-//     authService.login(email, password);
 
   void showSnack(String message, {isError = true}) {
     Get.showSnackbar(GetSnackBar(
