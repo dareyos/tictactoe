@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/home_controller.dart';
+import '../controllers/game_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+class GameView extends GetView<GameController> {
+  const GameView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TicTacToe'),
+        title: const Text('GameView'),
         centerTitle: true,
       ),
       body: const Center(
         child: Text(
-          'HomeView is working',
+          'GameView is working',
           style: TextStyle(fontSize: 20),
         ),
       ),

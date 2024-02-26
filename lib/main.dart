@@ -8,6 +8,9 @@ void main() {
   runApp(
     GetMaterialApp(
       title: "Application",
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.from(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blueGrey)),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),
