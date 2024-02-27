@@ -1,18 +1,14 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tictactoe/app/data/models/user_get/user_get.dart';
+import 'package:tictactoe/app/data/services/network_service.dart';
+import 'package:tictactoe/app/data/services/storage_service.dart';
 import 'package:tictactoe/app/routes/app_pages.dart';
-import 'package:tictactoe/core/constants.dart';
-import 'package:tictactoe/models/user_get/user_get.dart';
-import 'package:tictactoe/services/auth_service.dart';
-import 'package:tictactoe/services/storage_service.dart';
 
 class LoginController extends GetxController {
-  AuthService authService = Get.find();
-  Dio client = Dio(BaseOptions(baseUrl: Constants.baseUrl));
-  StorageService storageService = Get.find();
-
+  var netService = Get.find<NetService>();
   var nickController = TextEditingController();
+  var storageService = Get.find<StorageService>();
 
   late UserGet userGet;
 
@@ -23,20 +19,20 @@ class LoginController extends GetxController {
       return regExp.hasMatch(text);
     }
 
+    var successRegistration =
+        await netService.registration(nickController.text);
+    print(successRegistration);
+
     if (nickController.text.isEmpty) {
       showSnack("Введите имя пользователя!");
       return;
     } else if (!latinChar(nickController.text)) {
       showSnack("Имя пользователя должно быть на английском языке.");
       return;
-    } else {
-      var response = await client.post('/user/add/${nickController.text}');
-      if (response.statusCode == 200) {
-        userGet = UserGet.fromJson(response.data);
-      }
-      storageService.write("user", userGet);
-      authService.getBasicAuth(userGet);
+    } else if (successRegistration) {
       Get.offNamed(Routes.ROOMS);
+    } else {
+      showSnack('Пользователь уже существует');
     }
   }
 

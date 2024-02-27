@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:tictactoe/app/modules/rooms/views/add_game_dialog.dart';
 import 'package:tictactoe/utils/colors.dart';
 
 import '../controllers/rooms_controller.dart';
@@ -19,6 +18,14 @@ class RoomsView extends GetView<RoomsController> {
           style: TextStyle(color: AppColors.white),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () => controller.goToLogin(),
+              icon: const Icon(
+                Icons.exit_to_app,
+                color: AppColors.white,
+              ))
+        ],
       ),
       body: Container(
         child: Center(
@@ -43,6 +50,49 @@ class RoomsView extends GetView<RoomsController> {
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
+              SizedBox(
+                child: ElevatedButton(
+                    onPressed: () => controller.getSessions(),
+                    child: const Text("Доступные комнаты")),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Obx(() => ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: controller.sessions.length,
+                  itemBuilder: (context, id) {
+                    var curSession = controller.sessions[id];
+                    return GestureDetector(
+                      onTap: () {},
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        elevation: 1,
+                        child: ListTile(
+                          title: Text(
+                            'Имя игры: ${curSession.name}',
+                            style: const TextStyle(
+                                color: AppColors.accentColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            'Имя хоста: ${curSession.host_name}',
+                            style: const TextStyle(
+                                color: AppColors.accentColor, fontSize: 16),
+                          ),
+                          trailing: Text(
+                            'Статус: ${curSession.game_state}',
+                            style: const TextStyle(
+                                color: AppColors.accentColor, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    );
+                  }))
             ],
           ),
         ),
@@ -50,13 +100,28 @@ class RoomsView extends GetView<RoomsController> {
     );
   }
 
-   void openAddTaskDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return const AddGameAlertDialog();
-      },
+  void openAddTaskDialog(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+        scrollable: true,
+        title: const Text(
+          'Создать игру',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18, color: AppColors.white),
+        ),
+        content: SizedBox(
+          height: 200,
+          width: MediaQuery.of(context).size.width,
+          child: TextField(),
+        ),
+        actions: [
+          ElevatedButton(
+              child: const Text('Создать'),
+              onPressed: () {
+                controller.createSession();
+              }),
+        ],
+      ),
     );
   }
-
 }

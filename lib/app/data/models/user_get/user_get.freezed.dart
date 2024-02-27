@@ -117,8 +117,8 @@ class __$$UserGetImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UserGetImpl implements _UserGet {
-  _$UserGetImpl({required this.private_key, required this.user});
+class _$UserGetImpl extends _UserGet {
+  _$UserGetImpl({required this.private_key, required this.user}) : super._();
 
   factory _$UserGetImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserGetImplFromJson(json);
@@ -161,10 +161,11 @@ class _$UserGetImpl implements _UserGet {
   }
 }
 
-abstract class _UserGet implements UserGet {
+abstract class _UserGet extends UserGet {
   factory _UserGet(
       {required final String private_key,
       required final User user}) = _$UserGetImpl;
+  _UserGet._() : super._();
 
   factory _UserGet.fromJson(Map<String, dynamic> json) = _$UserGetImpl.fromJson;
 
