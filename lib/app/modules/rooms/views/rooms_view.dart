@@ -27,12 +27,12 @@ class RoomsView extends GetView<RoomsController> {
               ))
         ],
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -50,14 +50,14 @@ class RoomsView extends GetView<RoomsController> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               SizedBox(
                 child: ElevatedButton(
                     onPressed: () => controller.getSessions(),
                     child: const Text("Доступные комнаты")),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Obx(() => ListView.builder(
                   shrinkWrap: true,
@@ -69,7 +69,7 @@ class RoomsView extends GetView<RoomsController> {
                       onTap: () {},
                       child: Card(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(20)),
                         elevation: 1,
                         child: ListTile(
                           title: Text(
@@ -112,7 +112,9 @@ class RoomsView extends GetView<RoomsController> {
         content: SizedBox(
           height: 200,
           width: MediaQuery.of(context).size.width,
-          child: TextField(),
+          child: TextField(
+            controller: controller.sessionNameController,
+          ),
         ),
         actions: [
           ElevatedButton(

@@ -14,7 +14,7 @@ class UserGet with _$UserGet {
     required User user,
   }) = _UserGet;
 
-  String get key => 'Basic  ${base64.encode(utf8.encode('${user.username}:$private_key'))}';
+  String get key => 'Basic ${base64.encode(utf8.encode('${user.username}:$private_key'))}';
 
   factory UserGet.fromJson(Map<String, dynamic> json) =>
       _$UserGetFromJson(json);

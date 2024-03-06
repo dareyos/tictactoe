@@ -6,7 +6,8 @@ import 'package:tictactoe/app/data/services/storage_service.dart';
 import 'package:tictactoe/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
-  var netService = Get.find<NetService>();
+  var netService = Get.find<
+      NetService>(); //лучше делать приватным, чтобы не было возможности обратиться из другого файла
   var nickController = TextEditingController();
   var storageService = Get.find<StorageService>();
 
@@ -32,7 +33,7 @@ class LoginController extends GetxController {
     } else if (successRegistration) {
       Get.offNamed(Routes.ROOMS);
     } else {
-      showSnack('Пользователь уже существует');
+      showSnack('Пользователь уже существует или ошибка');
     }
   }
 

@@ -14,7 +14,7 @@ class StorageService extends GetxService {
   }
 
   Future<void> savekey(String key) async {
-    //await write('key', key);
+    await write('key', key);
   }
 
   Future<void> write(String key, String data) async {
