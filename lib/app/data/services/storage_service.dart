@@ -1,24 +1,34 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:tictactoe/app/data/models/user_get/user_get.dart';
 
 class StorageService extends GetxService {
 
-  final storage = const FlutterSecureStorage();
+  //late GetStorage box;
 
-  Future<String?> readkey() async {
-    return await read('key'); 
+  GetStorage box = GetStorage('main');
+
+  Future<StorageService> init() async {
+    await GetStorage.init('main');
+    box = GetStorage('main');
+    return this;
   }
 
-  Future<String?> read(String key) async {
-    return await storage.read(key: key);
+  Future<void> writeUserData(UserGet data) async {
+    var jsonData = data.toJson();
+    var stringData = jsonEncode(jsonData);
+    await box.write('userData', stringData);
   }
 
-  Future<void> savekey(String key) async {
-    await write('key', key);
+  UserGet? readUserData() {
+    String? stringData = box.read<String>('userData');
+    if (stringData == null) return null;
+    Map<String, dynamic> jsonData = jsonDecode(stringData);
+    UserGet data = UserGet.fromJson(jsonData);
+    print(jsonData);
+    return data;
   }
 
-  Future<void> write(String key, String data) async {
-    await storage.write(key: key, value: data);
-  }
-
+  //Future<UserGet> readUserData() => box.read('userData');
 }
