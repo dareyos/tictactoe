@@ -6,35 +6,73 @@ import 'package:tictactoe/app/data/services/storage_service.dart';
 import 'package:tictactoe/core/constants.dart';
 
 class NetService extends GetxService {
-
   var storageService = Get.find<StorageService>();
 
   Dio client = Dio(BaseOptions(baseUrl: Constants.baseUrl));
-  //Rx<UserGet?> user = null.obs;
-
-  //UserGet? user;
 
   final private_key = "".obs;
 
-  Future<NetService> init() async {
-    await readPrefs();
-    return this;
+  Future<bool> isLoggedIn() async {
+    String? key = await storageService.readkey();
+    if (key == null) return false;
+
+    String? userNick = await getUserNick(key: key);
+    if (userNick != null) {
+      private_key.value = key;
+      return true;
+    }
+
+    return false;
   }
 
-  Future<void> readPrefs() async {
-    var userReaded = storageService.readUserData();
-    print(userReaded);
+  Future<String?> getUserNick({String? key}) async {
+    try {
+      var response = await client.patch('/user/update',
+          data: {"username": null},
+          options:
+              Options(headers: {'authorization': key ?? private_key.value}));
+
+      if (response.statusCode == 200) {
+        return response.data["username"];
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   }
 
-  Future<bool> writeSession(String sessionname) async {
+  // Future<bool> readPrefs() async {
+  //   String? keyReaded = await storageService.readkey();
+  //   if (keyReaded == null) return false;
+  //   return true;
+  // }
+
+  Future<Session?> writeSession(String sessionname) async {
     //функция чтобы создать новую игру
     try {
       var response = await client.post('/session/create/$sessionname',
           options: Options(headers: {'authorization': private_key.value}));
-      return true;
+      if (response.statusCode == 200) {
+        return Session.fromJson(response.data);
+      }
+      return null;
     } catch (e) {
       print(e);
-      return false;
+      return null;
+    }
+  }
+
+  Future<Session?> joinSession(String sessionId) async {
+    try {
+      var response = await client.patch('/session/join/$sessionId',
+          options: Options(headers: {'authorization': private_key.value}));
+      if (response.statusCode == 200) {
+        return Session.fromJson(response.data);
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 
@@ -46,7 +84,7 @@ class NetService extends GetxService {
       //print(response);
       var newUser = UserGet.fromJson(response.data);
       print(newUser);
-      await storageService.writeUserData(newUser);
+      await storageService.savekey(newUser.key);
       //user.value = newUser;
       private_key.value = newUser.key; //сохраняем его пароль
       print(private_key.value);
@@ -58,6 +96,35 @@ class NetService extends GetxService {
     }
   }
 
+  Future<Session?> doMove(int row, int col) async {
+    try {
+      var response = await client.patch('/session/move',
+          data: {"row": row, "col": col},
+          options: Options(headers: {'authorization': private_key.value}));
+      if (response.statusCode == 200) {
+        return Session.fromJson(response.data);
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    return null;
+  }
+
+  Future<Session?> startSession() async {
+    try {
+      var response = await client.patch('/session/start',
+          options: Options(headers: {'authorization': private_key.value}));
+      if (response.statusCode == 200) {
+        return Session.fromJson(response.data);
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    return null;
+  }
+
   Future<Session> getSession(String id) async {
     //получаем конкретную сессию
     try {
@@ -66,7 +133,7 @@ class NetService extends GetxService {
 
       return session;
     } catch (e) {
-      print("GET SESSION ERROR");
+      print(e);
       throw 'ERROR';
     }
   }
@@ -89,5 +156,8 @@ class NetService extends GetxService {
     }
   }
 
-
+  Future<void> logOut() async {
+    private_key.value = "";
+    storageService.deletekey();
+  }
 }

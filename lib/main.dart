@@ -25,5 +25,4 @@ Future<void> initServices() async {
   GetStorage.init();
   Get.put(StorageService());
   Get.put(NetService());
-  //Get.putAsync(() => NetService
 }

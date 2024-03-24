@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tictactoe/utils/colors.dart';
 
-import '../controllers/rooms_controller.dart';
+import 'rooms_controller.dart';
 
 class RoomsView extends GetView<RoomsController> {
   const RoomsView({Key? key}) : super(key: key);
@@ -13,6 +13,11 @@ class RoomsView extends GetView<RoomsController> {
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppColors.accentColor,
+        leading: Center(
+            child: Obx(() => Text(
+                  controller.userNick,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ))),
         title: const Text(
           'TicTacToe',
           style: TextStyle(color: AppColors.white),
@@ -20,7 +25,7 @@ class RoomsView extends GetView<RoomsController> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () => controller.goToLogin(),
+              onPressed: () => controller.logOut(),
               icon: const Icon(
                 Icons.exit_to_app,
                 color: AppColors.white,
@@ -66,7 +71,7 @@ class RoomsView extends GetView<RoomsController> {
                   itemBuilder: (context, id) {
                     var curSession = controller.sessions[id];
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () => controller.joinToRoom(curSession),
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
