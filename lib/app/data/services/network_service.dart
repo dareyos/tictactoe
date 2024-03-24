@@ -41,14 +41,7 @@ class NetService extends GetxService {
     return null;
   }
 
-  // Future<bool> readPrefs() async {
-  //   String? keyReaded = await storageService.readkey();
-  //   if (keyReaded == null) return false;
-  //   return true;
-  // }
-
   Future<Session?> writeSession(String sessionname) async {
-    //функция чтобы создать новую игру
     try {
       var response = await client.post('/session/create/$sessionname',
           options: Options(headers: {'authorization': private_key.value}));
@@ -77,18 +70,13 @@ class NetService extends GetxService {
   }
 
   Future<bool> registration(String username) async {
-    //функция чтобы добавить игрока
     try {
       var response = await client.post('/user/add/$username');
-
-      //print(response);
       var newUser = UserGet.fromJson(response.data);
       print(newUser);
       await storageService.savekey(newUser.key);
-      //user.value = newUser;
-      private_key.value = newUser.key; //сохраняем его пароль
+      private_key.value = newUser.key;
       print(private_key.value);
-      //storageService.writeUserData(user.value!);
       return true;
     } catch (e) {
       print(e);
@@ -126,7 +114,6 @@ class NetService extends GetxService {
   }
 
   Future<Session> getSession(String id) async {
-    //получаем конкретную сессию
     try {
       var response = await client.get('/session/get/$id');
       var session = Session.fromJson(response.data);
@@ -139,7 +126,6 @@ class NetService extends GetxService {
   }
 
   Future<List<Session>> getSessions() async {
-    //получаем список сессий
     try {
       var response = await client.get('/session/get');
       List<dynamic> sessionIds = response.data;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tictactoe/app/modules/game/game_controller.dart';
-import 'package:tictactoe/app/modules/game/xofield_view.dart';
 
 class GameView extends GetView<GameController> {
   const GameView({super.key});
@@ -20,7 +19,7 @@ class GameView extends GetView<GameController> {
               onPressed: () => controller.goBack(),
               icon: const Icon(
                 Icons.exit_to_app,
-                color: Colors.white,
+                color: Colors.black,
               ))
         ],
       ),

@@ -7,7 +7,7 @@ import 'package:tictactoe/app/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   var nickController = TextEditingController();
-  final netService = Get.find<NetService>(); //сделать переменную приватной
+  final netService = Get.find<NetService>();
   var storageService = Get.find<StorageService>();
 
 
@@ -32,9 +32,4 @@ class LoginController extends GetxController {
       duration: const Duration(seconds: 2),
     ));
   }
-
-  // void onReady() {
-  //   super.onReady();
-  //   Get.offNamed(Routes.ROOMS_PAGE);
-  // }
 }
