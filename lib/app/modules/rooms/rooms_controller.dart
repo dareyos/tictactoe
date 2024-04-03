@@ -41,16 +41,6 @@ class RoomsController extends GetxController {
   }
 
   void createSession() async {
-    // bool latinChar(String text) {
-    //   String validChar = r'^[a-zA-Z ]*$';
-    //   RegExp regExp = RegExp(validChar);
-    //   return regExp.hasMatch(text);
-    // }
-
-    // if (!latinChar(sessionNameController.text)) {
-    //   showSnack("Имя игры должно быть написано на латинице");
-    //   return;
-    // }
     var successCreateGame =
         await netService.writeSession(sessionNameController.text);
     if (successCreateGame != null) {
