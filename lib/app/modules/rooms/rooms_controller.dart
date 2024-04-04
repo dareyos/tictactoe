@@ -19,7 +19,7 @@ class RoomsController extends GetxController {
   }
 
   Future<void> getNick() async {
-    _userNick.value = await netService.getUserNick() ?? "Unable to load nick";
+    _userNick.value = await netService.getUserNick() ?? "???";
   }
 
   void getSessions() async {
@@ -27,27 +27,28 @@ class RoomsController extends GetxController {
   }
 
   Future<void> joinToRoom(Session session) async {
-    Session? updatedSession = await netService.joinSession(session.id);
-    if (updatedSession == null) {
-      showSnack("Сессия занята");
-      return;
-    }
-    Session? startedSession =  await netService.startSession();
-    if (startedSession == null) {
-      showSnack("Не удалось запустить сессию");
-      return;
-    }
-    Get.toNamed(Routes.GAME, arguments: updatedSession);
+    // Session? updatedSession = await netService.joinSession(session.id);
+    // if (updatedSession == null) {
+    //   showSnack("Сессия занята");
+    //   return;
+    // }
+    // Session? startedSession =  await netService.startSession();
+    // if (startedSession == null) {
+    //   showSnack("Не удалось запустить сессию");
+    //   return;
+    // }
+    // Get.toNamed(Routes.GAME, arguments: updatedSession);
+    showSnack("Не функционирует");
   }
 
   void createSession() async {
-    var successCreateGame =
-        await netService.writeSession(sessionNameController.text);
-    if (successCreateGame != null) {
-      Get.toNamed(Routes.GAME, arguments: successCreateGame);
-    } else {
-      showSnack('Ошибка');
-    }
+    // var successCreateGame =
+    //     await netService.writeSession(sessionNameController.text);
+    // if (successCreateGame != null) {
+      Get.toNamed(Routes.GAME);
+    // } else {
+    //   showSnack('Ошибка');
+    // }
   }
 
   void showSnack(String message, {isError = true}) {

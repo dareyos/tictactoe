@@ -42,14 +42,6 @@ class LoginView extends GetView<LoginController> {
                         fontSize: 32,
                       ),
                     ),
-                    const Text(
-                      'Введите имя пользователя для продолжения',
-                      style: TextStyle(
-                        color: AppColors.accentColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
                     const SizedBox(height: 30),
                     Container(
                       width: 400,

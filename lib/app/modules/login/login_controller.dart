@@ -16,7 +16,6 @@ class LoginController extends GetxController {
   void login() async {
 
     var successRegistration = await netService.registration(nickController.text);
-    print(successRegistration);
     if(successRegistration){
       Get.offNamed(Routes.ROOMS);
     }else{
