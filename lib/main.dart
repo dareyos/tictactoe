@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:tictactoe/app/data/services/network_service.dart';
 import 'package:tictactoe/app/data/services/storage_service.dart';
 
@@ -21,6 +22,7 @@ void main() async {
 }
 
 Future<void> initServices() async {
+  GetStorage.init();
   Get.put(StorageService());
   Get.put(NetService());
 }

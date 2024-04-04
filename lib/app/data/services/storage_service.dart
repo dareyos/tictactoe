@@ -2,11 +2,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 class StorageService extends GetxService {
-
   final storage = const FlutterSecureStorage();
 
   Future<String?> readkey() async {
-    return await read('key'); 
+    return await read('key');
   }
 
   Future<String?> read(String key) async {
@@ -14,11 +13,18 @@ class StorageService extends GetxService {
   }
 
   Future<void> savekey(String key) async {
-    //await write('key', key);
+    await write('key', key);
   }
 
   Future<void> write(String key, String data) async {
     await storage.write(key: key, value: data);
   }
 
+  Future<void> deletekey() async {
+    await delete("key");
+  }
+
+  Future<void> delete(String key) async {
+    await storage.delete(key: key);
+  }
 }

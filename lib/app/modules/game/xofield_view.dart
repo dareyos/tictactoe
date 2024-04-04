@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tictactoe/app/modules/game/controllers/xofield_controller.dart';
+import 'package:tictactoe/app/modules/game/xofield_controller.dart';
 const controllerTag = 'ctrlTagXO_';
 
 class XOFieldView extends GetView<XOFieldController> {
